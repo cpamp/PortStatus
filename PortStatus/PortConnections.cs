@@ -116,6 +116,18 @@ namespace PortStatus
         }
 
         /// <summary>
+        /// Gets ports which have UDP listeners
+        /// </summary>
+        /// <returns>Ports with UDP listeners.</returns>
+        private IEnumerable<int> listenUDP()
+        {
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] udpEndPoints = properties.GetActiveUdpListeners();
+
+            return udpEndPoints.OrderBy(x => x.Port).Select(x => x.Port).ToList<int>();
+        }
+
+        /// <summary>
         /// Get ports without TCP connections.
         /// </summary>
         /// <returns>Ports without TCP connections.</returns>
@@ -131,6 +143,15 @@ namespace PortStatus
         public IEnumerable<int> GetListenTCP()
         {
             return checkPorts(listenTCP());
+        }
+
+        /// <summary>
+        /// Gets ports without UDP listeners.
+        /// </summary>
+        /// <returns>Ports without UDP listeners</returns>
+        public IEnumerable<int> GetListenUDP()
+        {
+            return checkPorts(listenUDP());
         }
 
         /// <summary>
@@ -189,6 +210,20 @@ namespace PortStatus
 
             result.Append("Listener TCP Ports:\n");
             result.Append(portsToString(listenTCP().ToArray()));
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets string of ports with UDP listeners.
+        /// </summary>
+        /// <returns>String of ports with UDP listeners.</returns>
+        public string ListenUDPString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("Listener UDP Ports:\n");
+            result.Append(portsToString(listenUDP().ToArray()));
 
             return result.ToString();
         }
