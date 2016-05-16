@@ -75,10 +75,10 @@ namespace PortStatus
         }
 
         /// <summary>
-        /// Get ports within starting and ending port numbers.
+        /// Get open ports within starting and ending port numbers.
         /// </summary>
-        /// <param name="ports">Ports to check.</param>
-        /// <returns>Ports within starting and ending port numbers.</returns>
+        /// <param name="ports">Collection of used ports.</param>
+        /// <returns>Open ports within starting and ending port numbers.</returns>
         private IEnumerable<int> checkPorts (IEnumerable<int> ports)
         {
             List<int> result = new List<int>();
