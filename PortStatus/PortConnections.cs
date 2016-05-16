@@ -100,7 +100,10 @@ namespace PortStatus
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
             TcpConnectionInformation[] tcpEndPoints = properties.GetActiveTcpConnections();
 
-            return tcpEndPoints.OrderBy(x => x.LocalEndPoint.Port).Select(x => x.LocalEndPoint.Port).ToList<int>();
+            return tcpEndPoints.OrderBy(x => x.LocalEndPoint.Port)
+                .Select(x => x.LocalEndPoint.Port)
+                .Distinct()
+                .ToList<int>();
         }
 
         /// <summary>
@@ -112,7 +115,10 @@ namespace PortStatus
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] tcpEndPoints = properties.GetActiveTcpListeners();
 
-            return tcpEndPoints.OrderBy(x => x.Port).Select(x => x.Port).ToList<int>();
+            return tcpEndPoints.OrderBy(x => x.Port)
+                .Select(x => x.Port)
+                .Distinct()
+                .ToList<int>();
         }
 
         /// <summary>
@@ -124,7 +130,10 @@ namespace PortStatus
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] udpEndPoints = properties.GetActiveUdpListeners();
 
-            return udpEndPoints.OrderBy(x => x.Port).Select(x => x.Port).ToList<int>();
+            return udpEndPoints.OrderBy(x => x.Port)
+                .Select(x => x.Port)
+                .Distinct()
+                .ToList<int>();
         }
 
         /// <summary>
