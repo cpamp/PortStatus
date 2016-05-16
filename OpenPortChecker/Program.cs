@@ -12,9 +12,9 @@ namespace OpenPortChecker
         static void Main(string[] args)
         {
             PortConnections portChecker = new PortStatus.PortConnections();
-            Console.Write(portChecker.OpenTCPString());
+            Console.Write(portChecker.OpenPortsString());
             Console.ReadLine();
-            Console.Write(portChecker.UsedTCPString());
+            Console.Write(portChecker.UsedPortsString());
             Console.ReadLine();
         }
     }
