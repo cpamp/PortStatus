@@ -60,7 +60,7 @@ namespace PortStatus
         /// <param name="start">Port number to begin search.</param>
         public PortConnections(int start)
         {
-            if (start >= MIN_PORT || start < MAX_PORT) { startPort = start; }
+            startPort = start >= MIN_PORT || start < MAX_PORT ? start : MIN_PORT;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PortStatus
         /// <param name="end">Port number to end search.</param>
         public PortConnections(int start, int end) : this(start)
         {
-            if (end <= MAX_PORT || end > MIN_PORT) { endPort = end; }
+            endPort = end <= MAX_PORT || end > MIN_PORT ? end : MAX_PORT;
         }
 
         /// <summary>
