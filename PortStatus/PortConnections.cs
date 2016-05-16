@@ -102,8 +102,7 @@ namespace PortStatus
 
             return tcpEndPoints.OrderBy(x => x.LocalEndPoint.Port)
                 .Select(x => x.LocalEndPoint.Port)
-                .Distinct()
-                .ToList<int>();
+                .Distinct();
         }
 
         /// <summary>
@@ -117,8 +116,7 @@ namespace PortStatus
 
             return tcpEndPoints.OrderBy(x => x.Port)
                 .Select(x => x.Port)
-                .Distinct()
-                .ToList<int>();
+                .Distinct();
         }
 
         /// <summary>
@@ -132,8 +130,7 @@ namespace PortStatus
 
             return udpEndPoints.OrderBy(x => x.Port)
                 .Select(x => x.Port)
-                .Distinct()
-                .ToList<int>();
+                .Distinct();
         }
 
         /// <summary>
@@ -161,6 +158,24 @@ namespace PortStatus
         public IEnumerable<int> GetListenUDP()
         {
             return checkPorts(listenUDP());
+        }
+
+        /// <summary>
+        /// Get all ports with TCP/UDP listeners and active TCP connections.
+        /// </summary>
+        /// <returns>Ports with TCP/UDP listeners and active TCP connections.</returns>
+        public IEnumerable<int> GetAllUsedPorts()
+        {
+            return usedTCP().Union(listenTCP()).Union(listenUDP()).OrderBy(x => x);
+        }
+
+        /// <summary>
+        /// Get all ports without TCP/UDP listeners and active TCP connections.
+        /// </summary>
+        /// <returns>Ports without TCP/UDP listeners and active TCP connections.</returns>
+        public IEnumerable<int> GetAllOpenPorts()
+        {
+            return checkPorts(usedTCP().Union(listenTCP()).Union(listenUDP())).OrderBy(x => x);
         }
 
         /// <summary>
@@ -233,6 +248,34 @@ namespace PortStatus
 
             result.Append("Listener UDP Ports:\n");
             result.Append(portsToString(listenUDP().ToArray()));
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets a string of all open ports.
+        /// </summary>
+        /// <returns>String of open ports.</returns>
+        public string OpenPortsString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("All open Ports:\n");
+            result.Append(portsToString(GetAllOpenPorts().ToArray()));
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets a string of all used ports.
+        /// </summary>
+        /// <returns>String of all used ports.</returns>
+        public string UsedPortsString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("All used Ports:\n");
+            result.Append(portsToString(GetAllUsedPorts().ToArray()));
 
             return result.ToString();
         }
