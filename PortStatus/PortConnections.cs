@@ -121,9 +121,16 @@ namespace PortStatus
         /// <returns>Ports without TCP connections.</returns>
         public IEnumerable<int> GetOpenTCP()
         {
-            List<int> result = new List<int>();
-
             return checkPorts(usedTCP());
+        }
+
+        /// <summary>
+        /// Gets ports without TCP listeners.
+        /// </summary>
+        /// <returns>Ports without TCP listeners.</returns>
+        public IEnumerable<int> GetListenTCP()
+        {
+            return checkPorts(listenTCP());
         }
 
         /// <summary>
