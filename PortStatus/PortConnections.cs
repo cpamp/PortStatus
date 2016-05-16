@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Net.NetworkInformation;
+using System.Net;
 
 namespace PortStatus
 {
@@ -103,6 +104,18 @@ namespace PortStatus
         }
 
         /// <summary>
+        /// Gets ports which have TCP listeners
+        /// </summary>
+        /// <returns>Ports with TCP listeners.</returns>
+        private IEnumerable<int> listenTCP()
+        {
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] tcpEndPoints = properties.GetActiveTcpListeners();
+
+            return tcpEndPoints.OrderBy(x => x.Port).Select(x => x.Port).ToList<int>();
+        }
+
+        /// <summary>
         /// Get ports without TCP connections.
         /// </summary>
         /// <returns>Ports without TCP connections.</returns>
@@ -155,6 +168,20 @@ namespace PortStatus
 
             result.Append("Used TCP Ports:\n");
             result.Append(portsToString(usedTCP().ToArray()));
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets string of ports with TCP listeners.
+        /// </summary>
+        /// <returns>String of ports with TCP listeners.</returns>
+        public string ListenTCPString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("Listener TCP Ports:\n");
+            result.Append(portsToString(listenTCP().ToArray()));
 
             return result.ToString();
         }
