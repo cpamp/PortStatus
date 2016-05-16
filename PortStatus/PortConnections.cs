@@ -82,10 +82,11 @@ namespace PortStatus
         private IEnumerable<int> checkPorts (IEnumerable<int> ports)
         {
             List<int> result = new List<int>();
+            HashSet<int> hs = new HashSet<int>(ports);
 
             for (int i = startPort; i <= endPort; i++)
             {
-                if (!ports.Contains(i)) { result.Add(i); }
+                if (!hs.Contains(i)) { result.Add(i); }
             }
 
             return result;
