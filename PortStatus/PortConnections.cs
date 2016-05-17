@@ -185,6 +185,7 @@ namespace PortStatus
         /// Converts array of ports to string.
         /// </summary>
         /// <param name="ports">Array of ports to convert.</param>
+        /// <param name="header">Message to display above port collection.</param>
         /// <returns>String of ports.</returns>
         private string portsToString(IEnumerable<int> ports, string header)
         {
