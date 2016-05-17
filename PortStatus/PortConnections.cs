@@ -186,13 +186,16 @@ namespace PortStatus
         /// </summary>
         /// <param name="ports">Array of ports to convert.</param>
         /// <returns>String of ports.</returns>
-        private string portsToString(int[] ports)
+        private string portsToString(IEnumerable<int> ports, string header)
         {
             StringBuilder result = new StringBuilder();
+            int[] arrPorts = ports.ToArray();
 
-            for (int i = 0; i < ports.Length; i++)
+            result.Append(header);
+
+            for (int i = 0; i < arrPorts.Length; i++)
             {
-                result.Append(string.Format("{0}: Port {1}\n", i + 1, ports[i]));
+                result.Append(string.Format("{0}: Port {1}\n", i + 1, arrPorts[i]));
             }
 
             return result.ToString();
@@ -204,13 +207,7 @@ namespace PortStatus
         /// <returns>String of ports without TCP connections.</returns>
         public string OpenTCPString()
         {
-            StringBuilder result = new StringBuilder();
-            int[] ports = GetOpenTCP().ToArray();
-
-            result.Append("Open TCP Ports:\n");
-            result.Append(portsToString(ports));
-
-            return result.ToString();
+            return portsToString(GetOpenTCP(), "Open TCP Ports:\n");
         }
 
         /// <summary>
@@ -219,12 +216,7 @@ namespace PortStatus
         /// <returns>String of ports with TCP connections.</returns>
         public string UsedTCPString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("Used TCP Ports:\n");
-            result.Append(portsToString(usedTCP().ToArray()));
-
-            return result.ToString();
+            return portsToString(usedTCP(), "Used TCP Ports:\n");
         }
 
         /// <summary>
@@ -233,12 +225,7 @@ namespace PortStatus
         /// <returns>String of ports with TCP listeners.</returns>
         public string ListenTCPString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("Listener TCP Ports:\n");
-            result.Append(portsToString(listenTCP().ToArray()));
-
-            return result.ToString();
+            return portsToString(listenTCP(), "Listener TCP Ports:\n");
         }
 
         /// <summary>
@@ -247,12 +234,7 @@ namespace PortStatus
         /// <returns>String of ports with UDP listeners.</returns>
         public string ListenUDPString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("Listener UDP Ports:\n");
-            result.Append(portsToString(listenUDP().ToArray()));
-
-            return result.ToString();
+            return portsToString(listenUDP(), "Listener UDP Ports:\n");
         }
 
         /// <summary>
@@ -261,12 +243,7 @@ namespace PortStatus
         /// <returns>String of open ports.</returns>
         public string OpenPortsString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("All open Ports:\n");
-            result.Append(portsToString(GetAllOpenPorts().ToArray()));
-
-            return result.ToString();
+            return portsToString(GetAllOpenPorts(), "All open Ports:\n");
         }
 
         /// <summary>
@@ -275,12 +252,7 @@ namespace PortStatus
         /// <returns>String of all used ports.</returns>
         public string UsedPortsString()
         {
-            StringBuilder result = new StringBuilder();
-
-            result.Append("All used Ports:\n");
-            result.Append(portsToString(GetAllUsedPorts().ToArray()));
-
-            return result.ToString();
+            return portsToString(GetAllUsedPorts(), "All used Ports:\n");
         }
     }
 }
