@@ -49,21 +49,15 @@ namespace PortStatus
         /// <summary>
         /// Constructor
         /// </summary>
-        public PortConnections()
-        {
-            startPort = MIN_PORT;
-            EndPort = MAX_PORT;
-        }
+        public PortConnections() : this(MIN_PORT, MAX_PORT)
+        { }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="start">Port number to begin search.</param>
-        public PortConnections(int start)
-        {
-            startPort = start >= MIN_PORT || start < MAX_PORT ? start : MIN_PORT;
-            endPort = MAX_PORT;
-        }
+        public PortConnections(int start) : this(start, MAX_PORT)
+        { }
 
         /// <summary>
         /// Constructor
